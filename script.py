@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 """Retrieve last 24 hours of IOCs from TruSTAR and output to a CSV file.
 """
 
@@ -13,7 +13,7 @@ __email__ = 'bradley.logan@rhisac.org'
 
 # Override defaults here
 ENCLAVE_IDS = [
-    "7a33144f-aef3-442b-87d4-dbf70d8afdb0",
+    "d2eec321-34bc-4db6-aa20-2ad0a52135fc",  # RH-ISAC Vetted Indicators
 ]
 OUTPUT_FILENAME = None
 
@@ -22,6 +22,7 @@ def obl_dict_to_csv(observables: List[dict],
                     filename: str = None,
                     ) -> None:
     """Take a list of observable dictionaries and write to a CSV file.
+
     Parameters
     ----------
     observables : List[dict]
@@ -34,6 +35,7 @@ def obl_dict_to_csv(observables: List[dict],
         filename = f'rhisac_iocs_last24h_{now}.csv'
     with open(filename, 'w') as f:
         header = list(observables[0].keys())
+        header.append("ioc_value_copy")
 
         # move tags column (if any) to end
         if 'tags' in header:
@@ -45,12 +47,14 @@ def obl_dict_to_csv(observables: List[dict],
         for observable in observables:
             try:
                 row = []
-                row.append(observable.get("ioc_value"))
+                ioc_value = observable.get("ioc_value")
+                row.append(ioc_value)
                 row.append(observable.get("ioc_indicatorType"))
                 if observable.get('ioc_firstSeen') is not None:
                     row.append(datetime.fromtimestamp((observable.get('ioc_firstSeen'))/1000))
                 if observable.get('ioc_lastSeen') is not None:
                     row.append(datetime.fromtimestamp((observable.get('ioc_lastSeen'))/1000))
+                row.append(ioc_value)
 
                 if observable.get('tags'): # Check to see if tags exist for obl
                     if observable.get('tags') and isinstance(observable['tags'][0], dict):  # tags are dict
@@ -66,6 +70,7 @@ def obl_dict_to_csv(observables: List[dict],
 
 def retrieve_last24h_obls() -> List[dict]:
     """Query the TruSTAR 2.0 API for last 24 hours of Observables and return them.
+
     Returns
     _______
     list[dict]
@@ -81,7 +86,7 @@ def retrieve_last24h_obls() -> List[dict]:
 
     # Setup to/from times and convert timestamps to milliseconds since epoch
     to_time = datetime.now(timezone.utc)
-    from_time = to_time - timedelta(hours=24)  # last 24 hours
+    from_time = to_time - timedelta(hours=96)  # last 24 hours
     print(f'\nRetrieving all IOCs between UTC {from_time} and {to_time}...')
     from_time = int(from_time.timestamp() * 1000)
     to_time = int(to_time.timestamp() * 1000)
@@ -101,12 +106,13 @@ def retrieve_last24h_obls() -> List[dict]:
     # only include most commonly used fields
     out = [
         {
-            'ioc_list': obl.value,
+            'ioc_value': obl.value,
+            #'ioc_value_copy': obl.value,
             'ioc_indicatorType': obl.type,
-            'tags': obl.tags,
+            #'tags': obl.tags,
             'ioc_firstSeen': obl.first_seen,
             'ioc_lastSeen': obl.last_seen,
-            'ioc_value': obl.value,
+            #'ioc_value': obl.value,
         } for obl in obls
     ]
     return out
