@@ -13,7 +13,7 @@ __email__ = 'bradley.logan@rhisac.org'
 
 # Override defaults here
 ENCLAVE_IDS = [
-    "7a33144f-aef3-442b-87d4-dbf70d8afdb0", "0e4443fc-2b50-4756-b5e0-4ea30030bcb3"
+    "7a33144f-aef3-442b-87d4-dbf70d8afdb0",
 ]
 OUTPUT_FILENAME = None
 
