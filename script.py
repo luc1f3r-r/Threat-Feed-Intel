@@ -35,7 +35,7 @@ def obl_dict_to_csv(observables: List[dict],
         filename = f'rhisac_iocs_last24h_{now}.csv'
     with open(filename, 'w') as f:
         header = list(observables[0].keys())
-        header.append("ioc_value_copy")
+        header.append("ioc_value_list")
 
         # move tags column (if any) to end
         if 'tags' in header:
