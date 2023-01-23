@@ -13,7 +13,7 @@ __email__ = 'bradley.logan@rhisac.org'
 
 # Override defaults here
 ENCLAVE_IDS = [
-    "d2eec321-34bc-4db6-aa20-2ad0a52135fc",  # RH-ISAC Vetted Indicators
+    "59cd8570-5dce-4e5b-b09c-9807530a7086",  # RH-ISAC Vetted Indicators
 ]
 OUTPUT_FILENAME = None
 
@@ -79,14 +79,14 @@ def retrieve_last24h_obls() -> List[dict]:
 
     # Instantiate API Object
     try:
-        ts = TruStar.config_from_file(config_file_path="/Users/prashantraj/Documents/TruSTAR/TruSTAR-master/trustar.conf", config_role="trustar")
+        ts = TruStar.config_from_file(config_file_path="/home/jenkins/threat_feed/trustar.conf", config_role="trustar")
     except KeyError as e:
         print(f'{str(e)[1:-1]} in config file "trustar2.conf". Exiting...')
         exit()
 
     # Setup to/from times and convert timestamps to milliseconds since epoch
     to_time = datetime.now(timezone.utc)
-    from_time = to_time - timedelta(hours=96)  # last 24 hours
+    from_time = to_time - timedelta(hours=72)  # last 24 hours
     print(f'\nRetrieving all IOCs between UTC {from_time} and {to_time}...')
     from_time = int(from_time.timestamp() * 1000)
     to_time = int(to_time.timestamp() * 1000)
@@ -109,7 +109,7 @@ def retrieve_last24h_obls() -> List[dict]:
             'ioc_value': obl.value,
             #'ioc_value_copy': obl.value,
             'ioc_indicatorType': obl.type,
-            #'tags': obl.tags,
+            'tags': obl.tags,
             'ioc_firstSeen': obl.first_seen,
             'ioc_lastSeen': obl.last_seen,
             #'ioc_value': obl.value,
