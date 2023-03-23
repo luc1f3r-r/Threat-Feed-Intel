@@ -1,7 +1,0 @@
-ioc_value,ioc_indicatorType,ioc_firstSeen,ioc_lastSeen,ioc_value_list,ioc_tags
-nishad@poshmark.com,EMAIL_ADDRESS,2023-01-23 20:52:21,2023-01-23 20:52:21,nishad@poshmark.com,test
-/oauth2/v1/token,URL,2023-01-24 20:52:21,2023-01-24 20:52:21,/oauth2/v1/token,test
-43.224.2.153,IP,2023-01-25 20:52:21,2023-01-25 20:52:21,43.224.2.153,test
-68f9cf9f058312eba399d09bff9e1506c28ac488aaebae604143717f60f9ebd6,SHA256,2023-01-26 20:52:21,2023-01-26 20:52:21,68f9cf9f058312eba399d09bff9e1506c28ac488aaebae604143717f60f9ebd6,test
-jio.com,DOMAIN,2023-01-27 20:52:21,2023-01-27 20:52:21,jio.com,test
-44.192.0.0/11,CIDR,2023-01-28 20:52:21,2023-01-28 20:52:21,44.192.0.0/11,test
